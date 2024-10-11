@@ -1,5 +1,5 @@
 from config import host, user, password, db_name
-from flask import Flask, jsonify, request
+from flask import Flask, request
 from flask_restful import Api, Resource
 import requests, psycopg2
 
@@ -15,7 +15,7 @@ class Weather(Resource):
         longitude = 0
 
         if not get_request:
-            return {'message': 'Ошибка: пустое тело json'}, 400
+            return {'message': 'Ошибка: пустой json'}, 400
 
         try: 
             conntection = psycopg2.connect(host=host, user=user, password=password, database=db_name)
@@ -41,12 +41,15 @@ class Weather(Resource):
             temperature = response['current_weather']['temperature']
             windspeed = int(response['current_weather']['windspeed']) / 3.6 
 
-            return {'message': f'{get_request} - {temperature} °C при ветре в {windspeed:.1f} m/s'}
+            return {'message': f'{get_request} - {temperature} °C при ветре в {windspeed:.1f} m/s'}, 200
 
         except Exception as e:
-            print(f"Произошла ошибка: {e}")
+            return {'message': 'Произошла ошибка при обработке запроса'}, 500
+        
+    def options(self):
+        return {'methods': ['POST']}, 200
 
-api.add_resource(Weather, '/')
+api.add_resource(Weather, '/weather')
 
 if __name__ == '__main__':
     app.run(debug=True)  
