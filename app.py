@@ -41,10 +41,13 @@ class Weather(Resource):
             temperature = response['current_weather']['temperature']
             windspeed = int(response['current_weather']['windspeed']) / 3.6 
 
-            return {'message': f'{get_request} - {temperature} °C при ветре в {windspeed:.1f} m/s'}
+            return {'message': f'{get_request} - {temperature} °C при ветре в {windspeed:.1f} m/s'}, 200
 
         except Exception as e:
-            print(f"Произошла ошибка: {e}")
+            return {'message': 'Произошла ошибка при обработке запроса'}, 500
+        
+    def options(self):
+        return {'methods': ['POST']}, 200
 
 api.add_resource(Weather, '/weather')
 
