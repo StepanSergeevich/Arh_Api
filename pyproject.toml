@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "arh-api"
+version = "0.1.0"
+description = ""
+authors = ["Arhimiel <stepan.minikraft@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+setuptools = "^75.1.0"
+requests = "^2.32.3"
+flask = "^3.0.3"
+flask-restful = "^0.3.10"
+psycopg2 = "^2.9.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
